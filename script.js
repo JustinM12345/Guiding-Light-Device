@@ -26,6 +26,7 @@ async function init() {
   window.requestAnimationFrame(loop);
 
   // append elements to the DOM
+  document.getElementById("webcam-container").innerHTML = "";
   document.getElementById("webcam-container").appendChild(webcam.canvas);
   labelContainer = document.getElementById("label-container");
   for (let i = 0; i < maxPredictions; i++) { // and class labels
@@ -43,11 +44,17 @@ async function loop() {
 async function predict() {
   // predict can take in an image, video or canvas html element
   const prediction = await model.predict(webcam.canvas);
-
+  most = 0;
   for (let i = 0; i < maxPredictions; i++) {
+    if (prediction[i].probability.toFixed(1) * 100 >= most) {
+      most = prediction[i].probability.toFixed(1) * 100
+    }
+
     const classPrediction =
       prediction[i].className + ": " + (prediction[i].probability.toFixed(1) * 100 + "%");
     if (prediction[i].probability.toFixed(1) * 100 >= 80) {
+      document.getElementById("progress").value = prediction[i].probability.toFixed(1) * 100;
+      document.getElementById("progress").innerText = prediction[i].probability.toFixed(1) * 100 + "%";
       labelContainer.childNodes[i].innerHTML = classPrediction;
       if (last != prediction[i].className) {
         last = prediction[i].className;
@@ -59,4 +66,5 @@ async function predict() {
       labelContainer.childNodes[i].innerHTML = "";
     }
   }
+  document.getElementById("progress").value = most;
 }

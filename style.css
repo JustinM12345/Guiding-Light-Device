@@ -5,6 +5,7 @@ html {
 
 #main {
   padding: 3%;
+  width: 50%;
   margin-left: 25%;
   margin-right: 25%;
   margin-top: 5%;
@@ -15,12 +16,46 @@ html {
 
 }
 
+#progress {
+  text-align: center;
+  margin-left: 25%;
+  color: #123123;
+  margin-right: 25%;
+  background-color: #c4c4c4;
+  width: 50%;
+  border-radius: 8px;
+}
+
+#progress::-webkit-progress-bar {
+  text-align: center;
+  color: #123123;
+  background-color: #c4c4c4;
+  border-radius: 8px;
+}
+
+#progress::-webkit-progress-value {
+
+  transition: width 0.1s;
+  color: #123123;
+  background-color: #7F00FF;
+
+  border-radius: 8px;
+}
+
+#progress::-moz-progress-bar {
+  text-align: center;
+  color: #123123;
+  background-color: #7F00FF;
+  width: 50%;
+  border-radius: 8px;
+}
+
 #run {
   width: 100%;
   height: 50px;
   border-radius: 8px;
   border: 0;
-  background-color: #32a852;
+  background-color: #7F00FF;
   color: white;
   font-weight: bold;
   font-size: 20px;
@@ -32,7 +67,7 @@ html {
   height: 50px;
   border-radius: 8px;
   box-shadow: 0 2px 5px #777;
-  background-color: #298f45;
+  background-color: #7a02f2;
 
   color: white;
   font-weight: bold;
@@ -56,6 +91,5 @@ html {
 #label-container {
   text-align: center;
 
+
 }
-
-

@@ -1,4 +1,4 @@
-- Make it so the video doesn't dupplicate when you press button
-- On side maybe have the percentage bars so we can check how sure it is
+- Make it so the video doesn't dupplicate when you press button Done x- Joel took a  minute
+- On side maybe have the percentage bars so we can check how sure it is # Ok done
 - Further read text if it is a hazard symbol, so if there is additional text that says "flammable liquid" it'll tell you that
-- Make video box fit into the white box
+- Make video box fit into the white box #Idk what yall talking abt works fine for me
