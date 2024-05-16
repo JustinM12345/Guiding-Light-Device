@@ -5,22 +5,62 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
+<body>
+  <div>
+    <p id="textarea"></p>
+  </div>
+</body>
 
-<body></body>
+<body>
+  <body style="background-color:#dedede;">
+  <br>
+  <img src="Logo.png" alt="Guiding Light Logo" class="center">
+
+ 
+  <div class="texts">Created by Justin and Evan</div>
+
+    
+</body>
+
+
 <div id="main">
-  <div class="texts">The Guiding Light</div>
-  <div class="texts">Created by Joel and Terry</div>
-
-
   <div id="webcam-container"></div>
   <div id="label-container"></div>
-  <br><br><br><br>
+  <br>
   <progress id="progress" value="0" max="100">100%</progress>
   <br><br>
-  <button type="button" id="run" onclick="init()">Click to run</button>
+  
+  <div class="button_container">
+  <button type="button" id="run" onclick="init()">Click to run</button> <button id="stop" type="button" onclick="stopping()">Stop Camera</button
+  </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+</div>
+
+<div id="info">
+<h2 id="info_heading">
+  What Is The Guiding Light? </h2>
+<p id="info_text">
+  The guiding light is a revolutionary AI image recogition model trained to help the blind and visually impaired detect potential everyday hazards.
+</p>
+  
+</div>
+
+<div>
+<p id="dev-stats-title">In-Depth Stats
+</p>
+<p id="dev-stats">
+</p>
+
+</div>
+  
+<a href="contact.html">
+<button id="contact_button" type="button">Contact Us</button>
+</a>
+
+<script 
+  src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 <script src="script.js" text/javascript">
 
 </script>
+

@@ -1,5 +1,5 @@
 html {
-  height: 100%;
+  height: 175%;
   width: 100%;
 }
 
@@ -8,12 +8,73 @@ html {
   width: 50%;
   margin-left: 25%;
   margin-right: 25%;
-  margin-top: 5%;
+  margin-top: 2%;
   background-color: #FFFFFF;
   border-radius: 8px;
   box-shadow: 0 2px 5px #777;
-  color: blue;
+  color: black;
+  font-weight: bold;
+  font-size: 30px;
+  font-family: "Lucida Console", "Courier New", monospace;
 
+}
+
+.button-container {
+  display: flex;
+}
+
+#stop {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  border: 0;
+  background-color: #e00000;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+  transform: translate(20%, 0px);
+}
+
+#stop:hover {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px #777;
+  background-color: #ac0202;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer;
+  text-align: center;
+  transform: translate(20%, 0px);
+}
+
+#run {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  border: 0;
+  background-color: #00b30c;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+  transform: translate(20%, 0px);
+}
+
+#run:hover {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px #777;
+  background-color: #016f08;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer;
+  text-align: center;
+  transform: translate(20%, 0px);
 }
 
 #progress {
@@ -29,7 +90,7 @@ html {
 #progress::-webkit-progress-bar {
   text-align: center;
   color: #123123;
-  background-color: #c4c4c4;
+  background-color: #000000;
   border-radius: 8px;
 }
 
@@ -37,7 +98,7 @@ html {
 
   transition: width 0.1s;
   color: #123123;
-  background-color: #7F00FF;
+  background-color: #04AA6D;
 
   border-radius: 8px;
 }
@@ -45,43 +106,23 @@ html {
 #progress::-moz-progress-bar {
   text-align: center;
   color: #123123;
-  background-color: #7F00FF;
+  background-color: #969fa2;
   width: 50%;
   border-radius: 8px;
 }
 
-#run {
-  width: 100%;
-  height: 50px;
-  border-radius: 8px;
-  border: 0;
-  background-color: #7F00FF;
-  color: white;
-  font-weight: bold;
-  font-size: 20px;
-  text-align: center;
-}
-
-#run:hover {
-  width: 100%;
-  height: 50px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px #777;
-  background-color: #7a02f2;
-
-  color: white;
-  font-weight: bold;
-  font-size: 20px;
-  cursor: pointer;
-  text-align: center;
-}
-
 .texts {
   text-align: center;
-  font-size: 25px;
+  font-size: 20px;
+  font-family: "Lucida Console", "Courier New", monospace;
 }
 
-
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
 
 #webcam-container {
 
@@ -92,4 +133,118 @@ html {
   text-align: center;
 
 
+}
+
+#info {
+  text-align: center;
+}
+
+#info_heading {
+  color: black;
+  font-size: 25px margin-top: 20px;
+  font-weight: bold;
+  font-family: "Lucida Console", "Courier New", monospace;
+}
+
+#info_text {
+  color: black;
+  font-size: 17px;
+  text-align: left;
+  font-weight: bold;
+  font-family: "Lucida Console", "Courier New", monospace;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+#dev-stats-title {
+  color: black;
+  font-size: 25px;
+  text-align: center;
+  margin-top: 100px;
+  font-weight: bold;
+  font-family: "Lucida Console", "Courier New", monospace;
+}
+
+#dev-stats {
+  color: black;
+  font-size: 15px;
+  text-align: center;
+  font-family: "Lucida Console", "Courier New", monospace;
+}
+
+#contact_text {
+  color: black;
+  font-size: 20px;
+  text-align: center;
+  font-family: "Lucida Console", "Courier New", monospace;
+
+}
+
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #04AA6D;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #04AA6D;
+}
+
+#contact_button {
+  width: 20%;
+  height: 50px;
+  border-radius: 80px;
+  transform: translate(200%, 0px);
+  background-color: #eaff9e;
+  color: black;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
 }

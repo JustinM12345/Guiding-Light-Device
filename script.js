@@ -4,7 +4,7 @@
 // the link to your model provided by Teachable Machine export panel
 const URL = "https://teachablemachine.withgoogle.com/models/m9JsFfBs_/";
 var last = "";
-let model, webcam, labelContainer, maxPredictions;
+let model, webcam, labelContainer, maxPredictions, labelContainers;
 
 // Load the image model and setup the webcam
 async function init() {
@@ -20,7 +20,7 @@ async function init() {
 
   // Convenience function to setup a webcam
   const flip = true; // whether to flip the webcam
-  webcam = new tmImage.Webcam(200, 200, flip); // width, height, flip
+  webcam = new tmImage.Webcam(400, 400, flip); // width, height, flip
   await webcam.setup(); // request access to the webcam
   await webcam.play();
   window.requestAnimationFrame(loop);
@@ -29,17 +29,36 @@ async function init() {
   document.getElementById("webcam-container").innerHTML = "";
   document.getElementById("webcam-container").appendChild(webcam.canvas);
   labelContainer = document.getElementById("label-container");
+  labelContainers = document.getElementById("dev-stats");
   for (let i = 0; i < maxPredictions; i++) { // and class labels
+
     labelContainer.appendChild(document.createElement("div"));
+    labelContainers.appendChild(document.createElement("div"));
+
   }
+}
+
+//Stop the camera from running
+async function stopping(){
+  await webcam.stop();
 }
 
 async function loop() {
   webcam.update(); // update the webcam frame
   await predict();
+  await predict2();
   window.requestAnimationFrame(loop);
 }
-
+async function predict2() {
+  // predict can take in an image, video or canvas html element
+  const prediction = await model.predict(webcam.canvas);
+  for (let i = 0; i < maxPredictions; i++) {
+    const classPrediction =
+      prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+    console.log(prediction[i].className);
+    labelContainers.childNodes[i].innerHTML = classPrediction;
+  }
+}
 // run the webcam image through the image model
 async function predict() {
   // predict can take in an image, video or canvas html element
@@ -50,21 +69,74 @@ async function predict() {
       most = prediction[i].probability.toFixed(1) * 100
     }
 
-    const classPrediction =
-      prediction[i].className + ": " + (prediction[i].probability.toFixed(1) * 100 + "%");
-    if (prediction[i].probability.toFixed(1) * 100 >= 80) {
-      document.getElementById("progress").value = prediction[i].probability.toFixed(1) * 100;
+    const classPrediction = prediction[i].className + ": " + (prediction[i].probability.toFixed(1) * 100 + "%");
+    document.getElementById("dev-stats").append;
+    if (prediction[i].probability.toFixed(1) * 100 >= 90) {
+      document.getElementById("progress").value = prediction[i].probability.toFixed(1) * 100 ;
       document.getElementById("progress").innerText = prediction[i].probability.toFixed(1) * 100 + "%";
       labelContainer.childNodes[i].innerHTML = classPrediction;
+
+      // Specific Messages depending on name of class
       if (last != prediction[i].className) {
-        last = prediction[i].className;
-        var msg = new SpeechSynthesisUtterance();
-        msg.text = "Be careful! There is a " + prediction[i].className + " in front of you";
-        window.speechSynthesis.speak(msg);
+
+        if (prediction[i].className == "None") {
+          last = prediction[i].className;
+        }
+
+        else if (prediction[i].className == "Car or Bus") {
+          last = prediction[i].className;
+          var msg = new SpeechSynthesisUtterance();
+          msg.text = "Be careful! There is a car or bus in front of the camera";
+          window.speechSynthesis.speak(msg);
+        }
+
+        else {
+          last = prediction[i].className;
+          var msg = new SpeechSynthesisUtterance();
+          msg.text = "Be careful! There is a " + prediction[i].className + " in front of you";
+          window.speechSynthesis.speak(msg);
+        }
       }
     } else {
       labelContainer.childNodes[i].innerHTML = "";
     }
   }
   document.getElementById("progress").value = most;
+
 }
+
+// VOICE RECOGNITION AND VOICE COMMANDS SECTION
+
+var speak = document.getElementById("speak");
+var textarea = document.getElementById("textarea");
+var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+var recognition = new SpeechRecognition();
+recognition.continuous = true; // Set continuous property to true
+recognition.interimResults = true; // Optional: Show interim results
+
+function speech() {
+    recognition.start(); // Start recognition immediately
+    textarea.innerHTML = 'Listening...';
+
+    recognition.onresult = function(e) {
+        console.log(e);
+        var transcript = '';
+        for (var i = e.resultIndex; i < e.results.length; ++i) {
+            transcript += e.results[i][0].transcript;
+        }
+        textarea.innerHTML = transcript;
+        if (transcript.includes("run")) {
+            // Call function that runs
+            init();
+        } else if (transcript.includes("stop")) {
+            // Call function that stops
+            stopping();
+        }
+    }
+
+    recognition.onend = function() {
+        speech(); // Restart recognition when it ends
+    }
+}
+
+speech();
