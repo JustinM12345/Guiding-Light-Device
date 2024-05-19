@@ -8,3 +8,10 @@ https://github.com/bensonruan/webcam-easy
 https://sdkcarlos.github.io/sites/artyom.html
 https://docs.ourcodeworld.com/projects/artyom-js/documentation/getting-started/introduction
 https://www.youtube.com/watch?v=vI_bKvfWZHM
+
+https://stackoverflow.com/questions/72070120/text-to-speech-keeps-repeating-javascript 
+
+Science fair title ideas
+- The Guiding Light at the end of the tunnel
+- The light at the end of the tunnel
+- A Guiding Light for the blind

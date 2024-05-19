@@ -5,6 +5,8 @@
 const URL = "https://teachablemachine.withgoogle.com/models/m9JsFfBs_/";
 var last = "";
 let model, webcam, labelContainer, maxPredictions, labelContainers;
+let lastSpeechTime = 0; // Variable to store the last speech utterance time
+const speechDelay = 5000; // 3 seconds delay
 
 // Load the image model and setup the webcam
 async function init() {
@@ -20,7 +22,7 @@ async function init() {
 
   // Convenience function to setup a webcam
   const flip = true; // whether to flip the webcam
-  webcam = new tmImage.Webcam(400, 400, flip); // width, height, flip
+  webcam = new tmImage.Webcam(300, 300, flip); // width, height, flip
   await webcam.setup(); // request access to the webcam
   await webcam.play();
   window.requestAnimationFrame(loop);
@@ -38,8 +40,8 @@ async function init() {
   }
 }
 
-//Stop the camera from running
-async function stopping(){
+// Stop the camera from running
+async function stopping() {
   await webcam.stop();
 }
 
@@ -72,37 +74,39 @@ async function predict() {
     const classPrediction = prediction[i].className + ": " + (prediction[i].probability.toFixed(1) * 100 + "%");
     document.getElementById("dev-stats").append;
     if (prediction[i].probability.toFixed(1) * 100 >= 90) {
-      document.getElementById("progress").value = prediction[i].probability.toFixed(1) * 100 ;
+      document.getElementById("progress").value = prediction[i].probability.toFixed(1) * 100;
       document.getElementById("progress").innerText = prediction[i].probability.toFixed(1) * 100 + "%";
       labelContainer.childNodes[i].innerHTML = classPrediction;
 
       // Specific Messages depending on name of class
-      if (last != prediction[i].className) {
+      const currentTime = new Date().getTime();
+      if (last != prediction[i].className && (currentTime - lastSpeechTime > speechDelay)) {
 
         if (prediction[i].className == "None") {
           last = prediction[i].className;
-        }
-
-        else if (prediction[i].className == "Car or Bus") {
+        } else if (prediction[i].className == "Car or Bus") {
           last = prediction[i].className;
           var msg = new SpeechSynthesisUtterance();
           msg.text = "Be careful! There is a car or bus in front of the camera";
           window.speechSynthesis.speak(msg);
-        }
-
-        else {
+          lastSpeechTime = currentTime; // Update the last speech time
+        } else {
           last = prediction[i].className;
           var msg = new SpeechSynthesisUtterance();
           msg.text = "Be careful! There is a " + prediction[i].className + " in front of you";
           window.speechSynthesis.speak(msg);
+          lastSpeechTime = currentTime; // Update the last speech time
         }
       }
+      // Shows speech timer and how much time is left
+      var speech_timer = document.getElementById("speech_timer");
+      speech_timer.innerHTML = currentTime - lastSpeechTime;
+      
     } else {
       labelContainer.childNodes[i].innerHTML = "";
     }
   }
   document.getElementById("progress").value = most;
-
 }
 
 // VOICE RECOGNITION AND VOICE COMMANDS SECTION
@@ -115,28 +119,33 @@ recognition.continuous = true; // Set continuous property to true
 recognition.interimResults = true; // Optional: Show interim results
 
 function speech() {
-    recognition.start(); // Start recognition immediately
-    textarea.innerHTML = 'Listening...';
+  recognition.start(); // Start recognition immediately
+  textarea.innerHTML = 'Listening...';
 
-    recognition.onresult = function(e) {
-        console.log(e);
-        var transcript = '';
-        for (var i = e.resultIndex; i < e.results.length; ++i) {
-            transcript += e.results[i][0].transcript;
-        }
-        textarea.innerHTML = transcript;
-        if (transcript.includes("run")) {
-            // Call function that runs
-            init();
-        } else if (transcript.includes("stop")) {
-            // Call function that stops
-            stopping();
-        }
+  recognition.onresult = function(e) {
+    console.log(e);
+    var transcript = '';
+    for (var i = e.resultIndex; i < e.results.length; ++i) {
+      transcript += e.results[i][0].transcript;
+    }
+    textarea.innerHTML = transcript;
+    if (transcript.includes("run") || transcript.includes("start") || transcript.includes("Run") || transcript.includes("Start")) {
+      // Call function that runs
+      init();
+      var msg = new SpeechSynthesisUtterance();
+      msg.text = "Camera On";
+      window.speechSynthesis.speak(msg);
+    } else if (transcript.includes("stop") || transcript.includes("Stop")) {
+      // Call function that stops
+      stopping();
+      var msg = new SpeechSynthesisUtterance();
+      msg.text = "Camera Off";
+      window.speechSynthesis.speak(msg);
     }
 
     recognition.onend = function() {
-        speech(); // Restart recognition when it ends
+      speech(); // Restart recognition when it ends
     }
+  }
 }
-
 speech();
