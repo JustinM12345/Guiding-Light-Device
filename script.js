@@ -1,29 +1,25 @@
-// More API functions here:
-// https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
-
-// the link to your model provided by Teachable Machine export panel
+// Teachable Machine Constant Link
 const URL = "https://teachablemachine.withgoogle.com/models/m9JsFfBs_/";
 var last = "";
 let model, webcam, labelContainer, maxPredictions, labelContainers;
-let lastSpeechTime = 0; // Variable to store the last speech utterance time
-const speechDelay = 5000; // 3 seconds delay
+let lastSpeechTime = 0; 
+const speechDelay = 5000; 
+let cameraRunning = false;
 
 // Load the image model and setup the webcam
 async function init() {
+  cameraRunning = true;
   const modelURL = URL + "model.json";
   const metadataURL = URL + "metadata.json";
 
   // load the model and metadata
-  // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
-  // or files from your local hard drive
-  // Note: the pose library adds "tmImage" object to your window (window.tmImage)
   model = await tmImage.load(modelURL, metadataURL);
   maxPredictions = model.getTotalClasses();
 
-  // Convenience function to setup a webcam
-  const flip = true; // whether to flip the webcam
-  webcam = new tmImage.Webcam(300, 300, flip); // width, height, flip
-  await webcam.setup(); // request access to the webcam
+  // Webcam Setup
+  const flip = true; 
+  webcam = new tmImage.Webcam(300, 300, flip); 
+  await webcam.setup(); 
   await webcam.play();
   window.requestAnimationFrame(loop);
 
@@ -32,7 +28,7 @@ async function init() {
   document.getElementById("webcam-container").appendChild(webcam.canvas);
   labelContainer = document.getElementById("label-container");
   labelContainers = document.getElementById("dev-stats");
-  for (let i = 0; i < maxPredictions; i++) { // and class labels
+  for (let i = 0; i < maxPredictions; i++) { 
 
     labelContainer.appendChild(document.createElement("div"));
     labelContainers.appendChild(document.createElement("div"));
@@ -43,16 +39,18 @@ async function init() {
 // Stop the camera from running
 async function stopping() {
   await webcam.stop();
+  cameraRunning = false;
 }
 
 async function loop() {
-  webcam.update(); // update the webcam frame
+  webcam.update(); 
   await predict();
-  await predict2();
+  await in_depth_stats();
   window.requestAnimationFrame(loop);
 }
-async function predict2() {
-  // predict can take in an image, video or canvas html element
+
+// For in-depth stats text
+async function in_depth_stats() {
   const prediction = await model.predict(webcam.canvas);
   for (let i = 0; i < maxPredictions; i++) {
     const classPrediction =
@@ -61,9 +59,9 @@ async function predict2() {
     labelContainers.childNodes[i].innerHTML = classPrediction;
   }
 }
+
 // run the webcam image through the image model
 async function predict() {
-  // predict can take in an image, video or canvas html element
   const prediction = await model.predict(webcam.canvas);
   most = 0;
   for (let i = 0; i < maxPredictions; i++) {
@@ -84,18 +82,22 @@ async function predict() {
 
         if (prediction[i].className == "None") {
           last = prediction[i].className;
-        } else if (prediction[i].className == "Car or Bus") {
+        } 
+          
+        else if (prediction[i].className == "Car or Bus") {
           last = prediction[i].className;
           var msg = new SpeechSynthesisUtterance();
           msg.text = "Be careful! There is a car or bus in front of the camera";
           window.speechSynthesis.speak(msg);
-          lastSpeechTime = currentTime; // Update the last speech time
-        } else {
+          lastSpeechTime = currentTime; 
+        } 
+          
+        else {
           last = prediction[i].className;
           var msg = new SpeechSynthesisUtterance();
-          msg.text = "Be careful! There is a " + prediction[i].className + " in front of you";
+          msg.text = "Be careful! There is a " + prediction[i].className + " in front of the camera";
           window.speechSynthesis.speak(msg);
-          lastSpeechTime = currentTime; // Update the last speech time
+          lastSpeechTime = currentTime; 
         }
       }
       // Shows speech timer and how much time is left
@@ -115,36 +117,48 @@ var speak = document.getElementById("speak");
 var textarea = document.getElementById("textarea");
 var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 var recognition = new SpeechRecognition();
-recognition.continuous = true; // Set continuous property to true
-recognition.interimResults = true; // Optional: Show interim results
+recognition.continuous = true;
+recognition.interimResults = true; 
 
+// Turn on camera w/ speech
+function turnOn() {
+  init();
+  var msg = new SpeechSynthesisUtterance();
+  msg.text = "Starting Camera";
+  window.speechSynthesis.speak(msg);
+  cameraRunning = true;
+  recognition.stop();
+}
+
+// Turn off camera w/ speech
+function turnOff() {
+  stopping();
+  var msg = new SpeechSynthesisUtterance();
+  msg.text = "Stopping Camera";
+  window.speechSynthesis.speak(msg);
+  cameraRunning = false;
+  recognition.stop();
+}
+
+// Constantly running speech recognition
 function speech() {
-  recognition.start(); // Start recognition immediately
+  recognition.start();
   textarea.innerHTML = 'Listening...';
 
   recognition.onresult = function(e) {
-    console.log(e);
     var transcript = '';
     for (var i = e.resultIndex; i < e.results.length; ++i) {
       transcript += e.results[i][0].transcript;
     }
     textarea.innerHTML = transcript;
-    if (transcript.includes("run") || transcript.includes("start") || transcript.includes("Run") || transcript.includes("Start")) {
-      // Call function that runs
-      init();
-      var msg = new SpeechSynthesisUtterance();
-      msg.text = "Camera On";
-      window.speechSynthesis.speak(msg);
-    } else if (transcript.includes("stop") || transcript.includes("Stop")) {
-      // Call function that stops
-      stopping();
-      var msg = new SpeechSynthesisUtterance();
-      msg.text = "Camera Off";
-      window.speechSynthesis.speak(msg);
+    if ((transcript.includes("turn on") || transcript.includes("Turn on")) && cameraRunning == false) {
+      turnOn();
+    } else if ((transcript.includes("turn off") || transcript.includes("Turn off")) && cameraRunning == true) {
+      turnOff();
     }
 
     recognition.onend = function() {
-      speech(); // Restart recognition when it ends
+      speech();
     }
   }
 }
