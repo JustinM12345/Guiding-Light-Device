@@ -62,8 +62,8 @@ async function in_depth_stats() {
 
 // This function will run whatever the webcam sees through Teachable Machine
 async function predict() {
-  const prediction = await model.predict(webcam.canvas); 
-  most = 0; 
+  const prediction = await model.predict(webcam.canvas);
+  most = 0;
   for (let i = 0; i < maxPredictions; i++) {
     if (prediction[i].probability.toFixed(1) * 100 >= most) {
       most = prediction[i].probability.toFixed(1) * 100
@@ -114,13 +114,13 @@ async function predict() {
       labelContainer.childNodes[i].innerHTML = "";
     }
   }
-  
+
 }
 
 // VOICE RECOGNITION AND VOICE COMMANDS SECTION
 var textarea = document.getElementById("textarea");
 var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-var recognition = new SpeechRecognition(); 
+var recognition = new SpeechRecognition();
 recognition.continuous = true;
 recognition.interimResults = true;
 
@@ -155,7 +155,7 @@ function speech() {
       transcript += e.results[i][0].transcript;
     }
     textarea.innerHTML = transcript;
-    if ((transcript.includes("turn on") || transcript.includes("Turn on")) && cameraRunning == false) {
+    if ((transcript.includes("turn on") || transcript.includes("Turn on") || transcript.includes("start")) && cameraRunning == false) {
       turnOn();
     } else if ((transcript.includes("turn off") || transcript.includes("Turn off")) && cameraRunning == true) {
       turnOff();
