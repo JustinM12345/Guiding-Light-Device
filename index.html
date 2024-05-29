@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html>
+
 <head>
   <link rel="stylesheet" href="style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,62 +10,65 @@
 
 
 <body>
+
   <body style="background-color:#FFFFFF;">
-  <br>
-  <img src="Logo.png" alt="Guiding Light Logo" class="logo">  
-  <div class="texts">Created by Justin and Evan</div>
-</body>
+    <br>
+    <img src="Logo.png" alt="Guiding Light Logo" class="logo">
+    <div class="texts">Created by Justin and Evan</div>
+  </body>
 
 
-<div id="main">
-  <div id="webcam-container"></div>
-  <div id="label-container"></div>
-  <br>
-  <progress id="progress" value="0" max="100">100%</progress>
-  <br><br> 
-  <button type="button" id="run" onclick="init()">Start Camera</button> 
-  <button id="stop" type="button" onclick="stopping()">Stop Camera</button
+  <div id="main">
+    <div id="webcam-container"></div>
+    <div id="label-container"></div>
+    <br>
+    <progress id="progress" value="0" max="100">100%</progress>
+    <br><br>
+    <button type="button" id="run" onclick="init()">Start Camera</button>
+    <button id="stop" type="button" onclick="stopping()">Stop Camera</button </div>
   </div>
-</div>
-</div>
+  </div>
 
-<div id="info">
-<h2 id="info_heading">
-  What Is The Guiding Light? </h2>
-<p id="info_text">
-  The guiding light is a revolutionary AI image recogition model trained to help the blind and visually impaired detect potential everyday hazards. We are always working to add more hazards to our model, but right now we have the following classes...
-  <ol id="info_text">
-  <li>Flammable Signs</li>
-  <li>Stop Signs</li>
-  <li>Toxic Signs</li>
-  <li>Wet Floor Signs</li>
-  <li>High Voltage Signs</li>
-  <li>Cars and Buses In Front of the Camera</li>
-  <li>Nothing/Everyday Environment</li>
-  </ol>
-  <a href="https://sites.google.com/ycdsbk12.ca/theguidinglight/home" id="info_text">More Information on the Guiding Light can be found at our website</a>
-</p>
-</div>
+  <div id="info">
+    <h2 id="info_heading">
+      What Is The Guiding Light? </h2>
+    <p id="info_text">
+      The guiding light is a revolutionary AI image recogition model trained to help the blind and visually impaired
+      detect potential everyday hazards. We are always working to add more hazards to our model, but right now we have
+      the following classes...
+    <ol id="info_text">
+      <li>Flammable Signs and Toxic Signs</li>
+      <li>Stop Signs</li>
+      <li>Wet Floor Signs</li>
+      <li>High Voltage Signs</li>
+      <li>Cars or Buses In Front of the Camera</li>
+      <li>Nothing/Everyday Environment</li>
+    </ol>
+    <a href="https://sites.google.com/ycdsbk12.ca/theguidinglight/home" id="info_text">More Information on the Guiding
+      Light can be found at our website</a>
+    </p>
+  </div>
 
-<div>
-<p id="dev-stats-title">In-Depth Stats
-</p>
-<body id="dev-stats-text">
-<p id="dev-stats"></p>
-<p id="textarea"></p>
-<p id="speech_timer"></p>
-</body>
+  <div>
+    <p id="dev-stats-title">In-Depth Stats
+    </p>
 
-</div>
-  
-<a href="contact.html">
-<button id="contact_button" type="button">Contact Us</button>
-</a>
+    <body id="dev-stats-text">
+      <p id="dev-stats"></p>
+      <p id="textarea"></p>
+      <p id="speech_timer"></p>
+    </body>
 
-<script 
-  src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
-<script src="script.js" text/javascript">
+  </div>
 
-</script>
+  <a href="contact.html">
+    <button id="contact_button" type="button">Contact Us</button>
+  </a>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+  <script src="script.js" text/javascript">
+
+  </script>
+
 </html>
